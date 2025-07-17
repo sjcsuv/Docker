@@ -1,0 +1,30 @@
+# Docker Restart Policies
+
+By default, Docker containers **do not restart** automatically when they exit or when the Docker daemon is restarted. Docker provides **restart policies** to control this behavior.
+
+## Restart Policy Flags
+
+| Flag             | Description                                                                 |
+|------------------|-----------------------------------------------------------------------------|
+| `no`             | Do not automatically restart the container. *(This is the default behavior)* |
+| `on-failure`     | Restart the container only if it exits with a non-zero exit code (i.e., error). |
+| `unless-stopped` | Restart the container unless it is explicitly stopped or Docker itself is stopped or restarted. |
+| `always`         | Always restart the container if it stops, regardless of the reason.         |
+
+---
+
+## Example Commands
+
+### Run a container without restart policy (default)
+```bash
+docker container run -d nginx
+
+docker container run --restart unless-stopped -d nginx
+
+sudo systemctl restart docker
+
+docker container run --restart unless-stopped --name mynginx3 -d nginx
+
+docker container run --restart always --name mynginx2 -d nginx
+
+

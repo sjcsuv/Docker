@@ -1,0 +1,26 @@
+## Section 13: Container Identification
+
+When we create a Docker container, it is assigned a **UUID** (Universally Unique Identifier) — a long, 
+unique string that identifies the container internally.
+
+To make it easier for humans to manage containers, Docker also allows us to assign **custom names** to containers.
+
+### Default Naming Behavior
+
+If you do **not** specify a name, Docker will automatically assign a **randomly generated name** 
+made up of two words joined by an underscore (e.g., `elegant_morse`, `focused_turing`).
+
+### Custom Naming with `--name`
+
+You can assign a meaningful name to your container using the `--name` flag during the `docker run` command.
+
+```bash
+docker run --name=mynginx -dt -p 80:80 nginx
+
+--name=mynginx: Assigns the name mynginx to the container.
+-d: Runs the container in detached mode (in the background).
+-t: Allocates a pseudo-terminal (TTY), useful for interactive applications.
+-p 80:80: Maps port 80 of the host to port 80 of the container.
+nginx: The image used to create the container.
+
+docker run --name=mynginx -d -p 80:80 nginx

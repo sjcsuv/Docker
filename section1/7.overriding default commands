@@ -1,0 +1,29 @@
+# Overriding Default Container Commands in Docker
+
+When you run a Docker container, it executes a **default command** defined in the image (e.g., `nginx` runs its web server). However, you can **override** this default command by specifying a new one at the end of the `docker container run` command.
+
+---
+
+## Example: Default Behavior
+
+```bash
+docker container run -d nginx
+
+Example: Overriding the Default Command
+
+docker container run -d nginx sleep 500
+
+This overrides the default nginx command and runs sleep 500 instead.
+The container will now stay alive for 500 seconds and then exit.
+
+Inspecting and Interacting with the Container
+
+docker container exec -it <container_name_or_id> bash
+
+Install and run tools inside the container:
+
+apt-get update
+apt-get install htop
+htop
+
+exit

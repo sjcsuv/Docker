@@ -1,0 +1,65 @@
+## CMD vs ENTRYPOINT in Dockerfiles
+
+When building Docker images, both `CMD` and `ENTRYPOINT` define what command gets executedwhen a container starts. 
+However, they behave differently and serve different purposes.
+
+### CMD
+
+- Provides **default arguments** for the container.
+- Can be **overridden** by arguments passed to `docker run`.
+
+**Example Dockerfile using CMD:**
+```Dockerfile
+FROM ubuntu
+CMD ["echo", "Hello from CMD"]
+
+Run the container:
+
+docker build -t cmd-example .
+docker run cmd-example
+# Output: Hello from CMD
+
+docker run cmd-example echo "Overridden"
+# Output: Overridden
+
+ENTRYPOINT
+Defines the main command to run.
+Arguments passed to docker run are appended to the ENTRYPOINT.
+Example Dockerfile using ENTRYPOINT:
+
+FROM ubuntu
+ENTRYPOINT ["echo", "Hello from ENTRYPOINT"]
+
+
+Run the container:
+
+docker build -t entrypoint-example .
+docker run entrypoint-example
+# Output: Hello from ENTRYPOINT
+
+docker run entrypoint-example "and CMD is ignored"
+# Output: Hello from ENTRYPOINT and CMD is ignored
+
+Combining ENTRYPOINT and CMD
+You can use both together to define a base command and default arguments.
+
+Example:
+FROM ubuntu
+ENTRYPOINT ["sleep"]
+CMD ["5"]
+
+docker build -t sleep-example .
+docker run sleep-example
+# Sleeps for 5 seconds
+
+docker run sleep-example 10
+# Sleeps for 10 seconds
+
+Summary
+Feature	           CMD	                               ENTRYPOINT
+Purpose	          Default arguments	                   Main command
+Overridable	      Yes, by docker run args	           No, args are appended
+Flexibility	      Good for flexible containers	       Good for fixed behavior
+
+Use CMD when you want to allow users to override the command easily. 
+Use ENTRYPOINT when you want to enforce a specific command and optionally allow arguments.

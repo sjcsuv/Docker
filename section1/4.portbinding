@@ -1,0 +1,58 @@
+## Section 14: Port Binding
+
+By default, Docker containers can initiate **outgoing connections** to the outside world, 
+but **external systems cannot connect** to containers unless explicitly allowed.
+
+To enable **incoming connections**, you need to **bind a container port to a host port** using the `-p` flag.
+
+---
+
+### Example
+
+```bash
+docker run --name=mynginx -d -p 8080:80 nginx
+
+--name=mynginx: Assigns a custom name to the container.
+-d: Runs the container in detached mode (in the background).
+-p 8080:80: Maps host port 8080 to container port 80 (used by Nginx).
+This setup allows external users to access the Nginx server via:
+
+http://<host-ip>:8080
+
+Inspecting Port Bindings
+You can verify the container’s IP address and port mappings using:
+
+docker inspect <container_name>
+
+netstat -ntlp
+
+Docker containers need port binding to accept external traffic.
+Use -p hostPort:containerPort to expose services.
+Tools like docker inspect, docker ps, and netstat help verify bindings.
+
+##  Attached vs Detached Mode
+
+When running Docker containers, you can choose between **attached** and **detached** modes 
+depending on how you want to interact with the container.
+
+---
+
+### 🔗 Attached Mode
+
+```bash
+docker run --name mynginx -p 8080:80 nginx
+This runs the container in attached mode (default).
+The terminal remains connected to the container's output (logs, errors, etc.).
+If you press Ctrl+C, the container will stop.
+Useful for debugging or short-lived processes
+
+docker run --name mynginx -d -p 8081:80 nginx
+
+The -d flag runs the container in detached mode.
+The container runs in the background.
+You won’t see logs unless you explicitly fetch them using docker logs.
+Ideal for long-running services like web servers.
+
+Mode	    Command Example	                                   Behavior
+Attached	docker run --name mynginx -p 8080:80 nginx	       Runs in foreground, shows logs, stops on Ctrl+C
+Detached	docker run --name mynginx -d -p 8081:80 nginx	   Runs in background, no logs shown by default

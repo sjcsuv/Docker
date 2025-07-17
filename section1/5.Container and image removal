@@ -1,0 +1,36 @@
+##  Removing Docker Containers and Images
+
+Cleaning up unused containers and images is important to free up system resources and keep your Docker environment tidy.
+
+---
+
+## Stopping Containers
+
+
+docker container stop <container_name>
+
+docker container ls -aq
+
+docker container stop $(docker container ls -aq)
+
+docker container rm <container_id or name>
+
+docker container rm $(docker container ls -aq)
+
+docker rmi -f $(docker images -q)
+
+docker images -q: Lists all image IDs.
+docker rmi -f: Forcefully removes all listed images.
+
+Command	                                Description
+docker container stop <name>	        Stops a specific container
+docker container ls -aq	                Lists all container IDs
+docker container stop $(...)	        Stops all containers
+docker container rm <id>	            Removes a specific container
+docker container rm $(...)	            Removes all containers
+docker rmi -f $(docker images -q)	    Forcefully removes all Docker images
+
+automatically delete container when exits
+docker container run -dt --name testcontainer busybox ping -c10 google.com
+docker ps
+after pining 10 times, container exits
